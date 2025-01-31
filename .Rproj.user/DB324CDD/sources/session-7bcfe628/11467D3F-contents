@@ -26,7 +26,11 @@ cell_type_palette <- c(
 )
 
 # Plot Function
-plot_median_variance <- function(stimulus = "TNFa", data_obj = data_obj){
+plot_median_variance <- function(stimulus = "TNFa", data_obj = data_obj, output_dir = "./plots/"){
+  
+  # Directory to save
+  if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
+  plot_path <- file.path(output_dir, paste0("volcano_", stimulus, ".svg"))
   
   p <- data_obj %>%
     group_by(population, reagent, Condition) %>%
@@ -40,9 +44,10 @@ plot_median_variance <- function(stimulus = "TNFa", data_obj = data_obj){
     labs(x = "Median Difference\n(From Basal)",
          y = "Median Variance",
          title = paste0("Median stimulation by variance for ", stimulus))
-    
   
-  return(p)
+  ggsave(plot_path, p, width = 6, height = 4, dpi = 300, device = "svg")
+  
+  return(plot_path) # Return file path
   
 }
 
@@ -59,13 +64,19 @@ plot_median_variance(stimulus = "TNFa", data_obj = data_obj)
 # TRUE will split the boxplot by gender
 # FALSE will simply plot both together
 
-generate_boxplot <- function(cell_type="CD4+T cells", stimulus = "TNFa", gender =F) {
+generate_boxplot <- function(cell_type="CD4+T cells", stimulus = "TNFa", gender =F, output_dir = "./plots/") {
   
+  # Check if directory for plots exists and make if not
+  if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
+  plot_path <- file.path(output_dir, paste0("boxplot_", gsub("\\+", "", cell_type), "_", stimulus, ".svg"))
+  
+  # Subset data
   specific_data <- data_obj[data_obj$population == cell_type & data_obj$Condition == stimulus,]
   
+  # Generate plot
   if (gender) {
     
-    ggplot(specific_data, aes(x = reorder(reagent, -value_diff), y = value_diff, fill = Gender)) +
+    p_2 <- ggplot(specific_data, aes(x = reorder(reagent, -value_diff), y = value_diff, fill = Gender)) +
       geom_hline(yintercept = 0, color = "red") +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(size = .2, position = position_jitterdodge(jitter.width = .2)) +
@@ -74,9 +85,14 @@ generate_boxplot <- function(cell_type="CD4+T cells", stimulus = "TNFa", gender 
       labs(x = "Reagent Name", y = "Median Difference from Basal") +
       stat_compare_means(method = "wilcox", label = "..p..")
     
+    ggsave(plot_path, p, width = 6, height = 4, dpi = 300, device = "svg")
+    
+    return(plot_path) # Return file path
+    
+    
   } else {
     
-    ggplot(specific_data, aes(x = reorder(reagent, -value_diff), y = value_diff)) +
+    p_2 <- ggplot(specific_data, aes(x = reorder(reagent, -value_diff), y = value_diff)) +
       geom_hline(yintercept = 0, color = "red") +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(size = .2, width = 0.2) +
@@ -84,10 +100,16 @@ generate_boxplot <- function(cell_type="CD4+T cells", stimulus = "TNFa", gender 
       theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
       labs(x = "Reagent Name", y = "Median Difference from Basal")
     
+    ggsave(plot_path, p, width = 6, height = 4, dpi = 300, device = "svg")
+    
+    return(plot_path) # Return file path
+    
+    
   }
 }
 
 # Call function
+generate_boxplot()
 generate_boxplot(cell_type = celltype,
                  stimulus = condition,
                  gender = gender)
@@ -95,7 +117,12 @@ generate_boxplot(cell_type = celltype,
 # ---- Tab 3: Generate Correlation Plots ----
 
 # Define the correlation plot function
-correlation_plot <- function(cell_type = "Neutrophils", stimulus = "TNFa", read1 = "pP38", read2 = "pErk1/2" ) {
+correlation_plot <- function(cell_type = "Neutrophils", stimulus = "TNFa", read1 = "pP38", read2 = "pErk1/2", output_dir = "./plots/") {
+  
+  # Check if directory for plots exists and make if not
+  if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
+  plot_path <- file.path(output_dir, paste0("correlation_", gsub("\\+", "", cell_type), "_", stimulus, ".svg"))
+  
   # Input validation - check that all parameters acutally exist in the data
   if (!cell_type %in% unique(data_obj$population)) {
     # throws error and stops exeuction if we run into invalid cell types, also print out the valid types (unique)so we know what we can use
@@ -198,7 +225,9 @@ correlation_plot <- function(cell_type = "Neutrophils", stimulus = "TNFa", read1
     )
   
   # Display the plot
-  print(p)
+  ggsave(plot_path, p, width = 6, height = 4, dpi = 300, device = "svg")
+  
+  return(plot_path)
   
   # Return statistics (without printing)
   invisible(list(

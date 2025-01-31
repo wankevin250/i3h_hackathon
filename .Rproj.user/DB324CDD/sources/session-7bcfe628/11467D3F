@@ -3,7 +3,7 @@
     "path": "~/Desktop/i3h_project_jan_2025/backend_R.R",
     "project_path": "backend_R.R",
     "type": "r_source",
-    "hash": "0",
+    "hash": "1808841345",
     "contents": "",
     "dirty": false,
     "created": 1738338339852.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "8,39",
-        "scrollLine": "0"
+        "cursorPosition": "218,21",
+        "scrollLine": "43"
     },
-    "folds": "5|21|7|0|\n52|32|93|0|\n61|85|87|0|\n94|41|213|0|\n",
-    "lastKnownWriteTime": 1738339291,
+    "folds": "5|21|7|0|\n8|39|56|0|\n",
+    "lastKnownWriteTime": 1738340973,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1738339326387,
+    "last_content_update": 1738340977864,
     "read_only": false,
     "read_only_alternatives": []
 }
