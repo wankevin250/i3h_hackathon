@@ -1,0 +1,26 @@
+{
+    "id": "11467D3F",
+    "path": "~/Desktop/i3h_project_jan_2025/backend_R.R",
+    "project_path": "backend_R.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1738338339852.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "8,39",
+        "scrollLine": "0"
+    },
+    "folds": "5|21|7|0|\n52|32|93|0|\n61|85|87|0|\n94|41|213|0|\n",
+    "lastKnownWriteTime": 1738339291,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1738339326387,
+    "read_only": false,
+    "read_only_alternatives": []
+}
